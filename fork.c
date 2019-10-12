@@ -1,17 +1,27 @@
 #include <stdio.h>
+#include <unistd.h>
+#include <sys/wait.h>
 
 int main() {
-	int iStatus;
-	int iPID = fork();
-	if(iPID < 0) {
+	// The status of the parent process.
+	int pStatus;
+	
+	// Create the child process.
+	int pID = fork();
+	
+	// The parent has a process ID greater than 0.
+	// The child has a process ID equal to 0.
+	if (pID < 0) {
 		printf("Fork error.\n");
-	} else if (iPID == 0) {
-		// Child process.
-		printf("Hello from the child!\n");
+	} else if (pID == 0) {
+		// I am the child process.
+		printf("Hello from the child process! Process ID: %d.\n", pID);
 	} else {
-		// Parent process.
-		waitpid(iPID, &iStatus, 0);
-		printf("Hello from the parent!\n");
+		// I am the parent process.
+		// Change the status of parent process to blocked until child process finishes.
+		waitpid(pID, &pStatus, 0);
+		printf("Hello from the parent process! Process ID: %d.\n", pID);
 	}
+	
 	return 0;
 }
