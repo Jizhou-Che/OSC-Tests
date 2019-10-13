@@ -15,7 +15,10 @@ int main() {
 	
 	// Using a fixed array of thread IDs instead of an incrementing value as thread arguments.
 	// In case the thread scheduler runs multiple threads refering to the same value in the main thread.
-	int tIDs[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+	int tIDs[NUM_OF_THREADS] = {0};
+	for (int i = 0; i < NUM_OF_THREADS; i++) {
+		tIDs[i] = i;
+	}
 	
 	// Create threads.
 	for (int i = 0; i < NUM_OF_THREADS; i++) {
