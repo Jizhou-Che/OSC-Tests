@@ -4,8 +4,8 @@
 #define NUM_OF_THREADS 10
 
 // Function to carry out inside each thread.
-void * hello(void * tid) {
-	printf("Hello from thread %d!\n", * ((int *) tid));
+void * hello(void * tID) {
+	printf("Hello from thread %d!\n", * ((int *) tID));
 	pthread_exit(NULL);
 }
 
@@ -14,7 +14,7 @@ int main() {
 	pthread_t threads[NUM_OF_THREADS];
 	
 	// Using a fixed array of thread IDs instead of an incrementing value as thread arguments.
-	// In case the thread scheduler runs multiple threads refering to the same value in the main thread.
+	// In case the thread scheduler runs multiple threads referring to the same value in the main thread.
 	int tIDs[NUM_OF_THREADS] = {0};
 	for (int i = 0; i < NUM_OF_THREADS; i++) {
 		tIDs[i] = i;
