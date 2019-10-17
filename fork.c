@@ -15,12 +15,12 @@ int main() {
 		printf("Fork error.\n");
 	} else if (pID == 0) {
 		// I am the child process.
-		printf("Hello from the child process! Process ID: %d.\n", pID);
+		printf("Hello from the child process! Process ID: %d.\n", getpid());
 	} else {
 		// I am the parent process.
 		// Change the status of parent process to blocked until child process finishes.
 		waitpid(pID, &pStatus, 0);
-		printf("Hello from the parent process! Process ID: %d.\n", pID);
+		printf("Hello from the parent process! Process ID: %d.\n", getpid());
 	}
 	
 	return 0;
