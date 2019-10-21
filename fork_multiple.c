@@ -1,3 +1,5 @@
+// A demonstration of creating a fixed number of child processes.
+
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/wait.h>

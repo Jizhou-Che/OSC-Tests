@@ -1,3 +1,5 @@
+// A demonstration of creating threads.
+
 #include <stdio.h>
 #include <pthread.h>
 

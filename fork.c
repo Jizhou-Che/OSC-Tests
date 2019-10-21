@@ -1,3 +1,5 @@
+// A demonstration of creating a single child process.
+
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/wait.h>
