@@ -18,6 +18,7 @@ int counter = 0;
 // Indicates which process is next to enter its critical section.
 int turn;
 // Indicates whether each process is ready to enter its critical section.
+// Both set to false at the beginning.
 int flag[2];
 
 // Function to carry out inside thread A.
