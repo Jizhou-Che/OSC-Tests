@@ -10,7 +10,7 @@
 #include <semaphore.h>
 
 // Set each thread to increment the counter 50000000 times.
-#define number_of_increments 50000000
+#define NUMBER_OF_INCREMENTS 50000000
 
 // The semaphore.
 sem_t s;
@@ -20,7 +20,7 @@ int counter = 0;
 
 // Function to carry out inside each thread.
 void * increment() {
-	for (int i = 0; i < number_of_increments; i++) {
+	for (int i = 0; i < NUMBER_OF_INCREMENTS; i++) {
 		// Atomic function to wait a semaphore.
 		sem_wait(&s);
 		// Critical section.
@@ -32,19 +32,17 @@ void * increment() {
 }
 /*
 void * increment() {
+	// Do all the calculations locally and synchronise in the end.
 	int temp = 0;
-	for (int i = 0; i < number_of_increments; i++) {
+	for (int i = 0; i < NUMBER_OF_INCREMENTS; i++) {
 		temp++;
-		if (temp == 5000) {
-			// Atomic function to wait a semaphore.
-			sem_wait(&s);
-			// Critical section.
-			counter += temp;
-			// Atomic function to post a semaphore.
-			sem_post(&s);
-			temp = 0;
-		}
 	}
+	// Atomic function to wait a semaphore.
+	sem_wait(&s);
+	// Critical section.
+	counter += temp;
+	// Atomic function to post a semaphore.
+	sem_post(&s);
 	pthread_exit(NULL);
 }
 */

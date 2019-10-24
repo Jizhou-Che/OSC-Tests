@@ -9,7 +9,7 @@
 #include <pthread.h>
 
 // Set each thread to increment the counter 50000000 times.
-#define number_of_increments 50000000
+#define NUMBER_OF_INCREMENTS 50000000
 
 // The shared counter.
 int counter = 0;
@@ -24,7 +24,7 @@ int flag[2];
 // Function to carry out inside thread A.
 void * increment_a() {
 	// I am thread A.
-	for (int i = 0; i < number_of_increments; i++) {
+	for (int i = 0; i < NUMBER_OF_INCREMENTS; i++) {
 		// I want to enter my critical section.
 		flag[0] = 1;
 		// Let the other thread enter its critical section first.
@@ -42,7 +42,7 @@ void * increment_a() {
 // Function to carry out inside thread B.
 void * increment_b() {
 	// I am thread B.
-	for (int i = 0; i < number_of_increments; i++) {
+	for (int i = 0; i < NUMBER_OF_INCREMENTS; i++) {
 		// I want to enter my critical section.
 		flag[1] = 1;
 		// Let the other thread enter its critical section first.

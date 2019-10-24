@@ -6,7 +6,7 @@
 #include <pthread.h>
 
 // Set each thread to increment the counter 50000000 times.
-#define number_of_increments 50000000
+#define NUMBER_OF_INCREMENTS 50000000
 
 // The mutex lock.
 pthread_mutex_t lock;
@@ -16,7 +16,7 @@ int counter = 0;
 
 // Function to carry out inside each thread.
 void * increment() {
-	for (int i = 0; i < number_of_increments; i++) {
+	for (int i = 0; i < NUMBER_OF_INCREMENTS; i++) {
 		// Atomic instruction to acquire a mutex lock.
 		pthread_mutex_lock(&lock);
 		// Critical section.
