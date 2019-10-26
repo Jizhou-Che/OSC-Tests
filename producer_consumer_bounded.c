@@ -27,7 +27,7 @@ void * producer() {
 		items++;
 		printf("Produced, items = %d.\n", items);
 		sem_post(&sync);
-		// Increment the full counter.
+		// Increment the full counter, wake up a consumer if applicable.
 		sem_post(&full);
 	}
 }
@@ -41,7 +41,7 @@ void * consumer() {
 		items--;
 		printf("Consumed, items = %d.\n", items);
 		sem_post(&sync);
-		// Increment the empty counter.
+		// Increment the empty counter, wake up a producer if applicable.
 		sem_post(&empty);
 	}
 }

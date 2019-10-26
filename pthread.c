@@ -12,17 +12,15 @@ void * hello(void * tID) {
 }
 
 int main() {
-	// Identifiers of created threads.
-	pthread_t threads[NUM_OF_THREADS];
-	
-	// Using a fixed array of thread IDs instead of an incrementing value as thread arguments.
-	// In case the thread scheduler runs multiple threads referring to the same value in the main thread.
+	// Use a fixed array of thread IDs instead of an incrementing temporary value as thread arguments.
+	// Otherwise the threads will refer to a changing or invalid value in the main thread.
 	int tIDs[NUM_OF_THREADS] = {0};
 	for (int i = 0; i < NUM_OF_THREADS; i++) {
 		tIDs[i] = i;
 	}
 	
 	// Create threads.
+	pthread_t threads[NUM_OF_THREADS];
 	for (int i = 0; i < NUM_OF_THREADS; i++) {
 		if (pthread_create(&threads[i], NULL, hello, (void *) &tIDs[i]) != 0) {
 			printf("Failed to create thread %d.\n", i);
