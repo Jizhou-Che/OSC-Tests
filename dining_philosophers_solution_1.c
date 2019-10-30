@@ -1,4 +1,6 @@
 // A solution to the dining philosophers problem.
+// Limited parallelism as forks could be locked by semaphores unnecessarily.
+// Two philosophers could be both hungry and sitting in the right positions but fails to eat at the same time.
 
 #include <stdio.h>
 #include <pthread.h>

@@ -1,4 +1,5 @@
 // A solution to the dining philosophers problem.
+// Reaches maximum level of parallelism as forks are no longer locked by semaphores unnecessarily.
 
 #include <stdio.h>
 #include <pthread.h>
