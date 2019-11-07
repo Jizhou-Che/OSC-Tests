@@ -48,11 +48,11 @@ void * increment() {
 */
 
 int main() {
+	// Initialise internal value of semaphore to 1.
+	sem_init(&s, 0, 1);
+	
 	// Create two threads.
 	pthread_t tID1, tID2;
-	// Initialise semaphore before creating threads.
-	// Initial internal value of semaphore is set to 1.
-	sem_init(&s, 0, 1);
 	pthread_create(&tID1, NULL, increment, NULL);
 	pthread_create(&tID2, NULL, increment, NULL);
 	

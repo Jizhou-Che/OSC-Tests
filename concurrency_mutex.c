@@ -28,10 +28,11 @@ void * increment() {
 }
 
 int main() {
+	// Initialise mutex.
+	pthread_mutex_init(&lock, NULL);
+	
 	// Create two threads.
 	pthread_t tID1, tID2;
-	// Initialise mutex before creating threads.
-	pthread_mutex_init(&lock, NULL);
 	pthread_create(&tID1, NULL, increment, NULL);
 	pthread_create(&tID2, NULL, increment, NULL);
 	
