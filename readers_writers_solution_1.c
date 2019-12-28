@@ -10,11 +10,11 @@
 // Total number of readers and writers.
 #define NUMBER_OF_THREADS 10000
 
-// Mutex lock for mutual exclusion on reading or writing readerCount.
-pthread_mutex_t lock;
+// Binary semaphore for synchronising access to the resource.
+sem_t sync;
 
-// Binary semaphore for blocking readers or writers.
-sem_t rwSync;
+// Mutex lock for mutual exclusion on reading or writing readerCount.
+pthread_mutex_t lock_reader;
 
 // The current number of readers.
 int readerCount;
@@ -23,44 +23,45 @@ int readerCount;
 int value;
 
 void * reader() {
-	pthread_mutex_lock(&lock);
+	pthread_mutex_lock(&lock_reader);
 	readerCount++;
 	if (readerCount == 1) {
 		// Block any upcoming writers if there are readers currently in existence.
-		// Or go to sleep if there is a writer currently writing.
-		sem_wait(&rwSync);
+		// Or go to sleep if there is a writer currently writing, and hence blocking any other upcoming readers by not releasing the mutex lock.
+		sem_wait(&sync);
 	}
-	pthread_mutex_unlock(&lock);
+	pthread_mutex_unlock(&lock_reader);
 	
-	// The reading is outside the critical section so that multiple readers can be reading at the same time.
+	// The reading is outside the critical section so that multiple readers can read in parallel.
 	printf("A reader reads %d.\n", value);
 	
-	pthread_mutex_lock(&lock);
+	pthread_mutex_lock(&lock_reader);
 	readerCount--;
 	if (readerCount == 0) {
-		// Unblock the writers if there is currently no reader.
-		sem_post(&rwSync);
+		// Unblock the writers if there is currently no reader in existence.
+		sem_post(&sync);
 	}
-	pthread_mutex_unlock(&lock);
+	pthread_mutex_unlock(&lock_reader);
 	
 	pthread_exit(NULL);
 }
 
 void * writer() {
-	// Block any upcoming readers or writers if there is a writer currently writing.
-	sem_wait(&rwSync);
+	// Block any upcoming readers and writers if there is a writer currently writing.
+	// Or go to sleep if there are readers currently in existence or a writer currently writing.
+	sem_wait(&sync);
 	value = rand();
 	printf("A writer writes %d.\n", value);
-	// Unblock the readers or writers after I have done writing.
-	sem_post(&rwSync);
+	// Unblock the readers and writers after the writer has finished.
+	sem_post(&sync);
 	
 	pthread_exit(NULL);
 }
 
 int main() {
-	// Initialise the mutex and the semaphore.
-	pthread_mutex_init(&lock, NULL);
-	sem_init(&rwSync, 0, 1);
+	// Initialise the semaphore and the mutex.
+	sem_init(&sync, 0, 1);
+	pthread_mutex_init(&lock_reader, NULL);
 	
 	// Create the reader and writer threads.
 	pthread_t rwThreads[NUMBER_OF_THREADS];

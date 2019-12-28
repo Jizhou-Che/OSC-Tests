@@ -13,7 +13,7 @@
 #define NUMBER_OF_INCREMENTS 50000000
 
 // The semaphore.
-sem_t s;
+sem_t sync;
 
 // The shared counter.
 int counter = 0;
@@ -22,11 +22,11 @@ int counter = 0;
 void * increment() {
 	for (int i = 0; i < NUMBER_OF_INCREMENTS; i++) {
 		// Atomic function to wait a semaphore.
-		sem_wait(&s);
+		sem_wait(&sync);
 		// Critical section.
 		counter++;
 		// Atomic function to post a semaphore.
-		sem_post(&s);
+		sem_post(&sync);
 	}
 	pthread_exit(NULL);
 }
@@ -38,18 +38,18 @@ void * increment() {
 		temp++;
 	}
 	// Atomic function to wait a semaphore.
-	sem_wait(&s);
+	sem_wait(&sync);
 	// Critical section.
 	counter += temp;
 	// Atomic function to post a semaphore.
-	sem_post(&s);
+	sem_post(&sync);
 	pthread_exit(NULL);
 }
 */
 
 int main() {
 	// Initialise internal value of semaphore to 1.
-	sem_init(&s, 0, 1);
+	sem_init(&sync, 0, 1);
 	
 	// Create two threads.
 	pthread_t tID1, tID2;
